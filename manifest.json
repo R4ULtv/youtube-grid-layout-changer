@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "YouTube Grid Layout Changer",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Automatically adjusts YouTube grid layout based on screen size (1-4 videos per row). Fully customizable!",
   "permissions": [],
   "content_scripts": [
