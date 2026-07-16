@@ -1,100 +1,79 @@
-# 🎬 YouTube Grid Layout Changer
+# YouTube Grid Layout Changer
 
-> A simple Chrome extension that automatically adjusts YouTube's grid layout based on your screen size for the best viewing experience.
+> A lightweight Chrome extension that keeps YouTube's video grid responsive and consistent.
 
----
+## Installation
 
-## 📥 Installation
+1. Open Chrome and go to `chrome://extensions/`.
+2. Enable **Developer mode** in the top-right corner.
+3. Click **Load unpacked**.
+4. Select this extension's folder.
+5. Open or refresh YouTube.
 
-1. Open Chrome and navigate to `chrome://extensions/`
-2. Enable **Developer mode** (toggle in the top right corner)
-3. Click **"Load unpacked"**
-4. Select the folder containing these extension files
-5. Done! The extension is now active on YouTube
+## What it does
 
----
+The extension controls both parts of YouTube's home-page layout:
 
-## 🎯 What it does
+- The loaded video grid, using YouTube's `--ytd-rich-grid-items-per-row` variable.
+- The separate loading-placeholder layout shown before videos appear.
 
-This extension overrides the `--ytd-rich-grid-items-per-row` CSS variable on YouTube to control how many videos are displayed per row in the grid layout.
+Both layouts use the same responsive column count, so loading cards no longer change size or reflow when the videos finish loading.
 
-✨ **The extension automatically adjusts the grid based on your screen size!**
+### Responsive layout
 
-### 📐 Automatic Responsive Layout:
+| Screen width | Items per row |
+| --- | ---: |
+| Up to 767px | 1 |
+| 768px-1023px | 2 |
+| 1024px-1365px | 3 |
+| 1366px and above | 4 |
 
-| Screen Width | Videos Per Row |
-|--------------|----------------|
-| Up to 767px (Mobile) | 1 video |
-| 768px - 1023px (Tablet) | 2 videos |
-| 1024px - 1365px | 3 videos |
-| 1366px+ | 4 videos |
+The layout updates automatically when the browser window is resized or moved between displays.
 
-> The grid automatically adjusts when you resize your browser window or use different monitors!
->
-> **Note:** 4 videos per row provides a clean, balanced layout. If you want more videos (5-6) on ultra-wide monitors, you can easily adjust the values in `styles.css`!
+## Customization
 
----
+Edit `styles.css` to change the breakpoints or column counts. The shared `--ytgc-items-per-row` variable controls both loaded videos and loading placeholders.
 
-## ⚙️ Customization
-
-### 💡 Want different values? You can edit the `styles.css` file!
-
-The extension comes with responsive breakpoints that work great for most users, but you can customize them to your preference.
-
-### How to customize the breakpoints:
-
-1. 📝 Open `styles.css` in any text editor
-2. 🔢 Modify the values in the existing breakpoints. For example, to show 5-6 videos on ultra-wide screens, change:
-   ```css
-   /* Extra large screens (1600px to 1919px) */
-   @media (min-width: 1600px) {
-       ytd-rich-grid-renderer {
-           --ytd-rich-grid-items-per-row: 5 !important;  /* Change from 4 to 5 */
-       }
-   }
-
-   /* Ultra wide screens (1920px and above) */
-   @media (min-width: 1920px) {
-       ytd-rich-grid-renderer {
-           --ytd-rich-grid-items-per-row: 6 !important;  /* Change from 4 to 6 */
-       }
-   }
-   ```
-3. 💾 Save the file
-4. 🔄 Go to `chrome://extensions/` and click the **reload icon** on this extension
-5. ✨ Refresh YouTube to see the changes
-
-### 🎨 Want a fixed value instead?
-
-If you prefer the same number of videos on all screen sizes, replace the entire `styles.css` content with:
+For example, add these rules after the existing media queries to use five and six columns on wider displays:
 
 ```css
-ytd-rich-grid-renderer {
-    --ytd-rich-grid-items-per-row: 5 !important;
+@media (min-width: 1600px) {
+    :root {
+        --ytgc-items-per-row: 5;
+    }
+}
+
+@media (min-width: 1920px) {
+    :root {
+        --ytgc-items-per-row: 6;
+    }
 }
 ```
 
-Replace `5` with your preferred number.
+To use a fixed number of columns at every screen size, remove the media queries and change the default value:
 
----
+```css
+:root {
+    --ytgc-items-per-row: 4;
+}
+```
 
-## 📁 Files
+After editing the CSS:
+
+1. Save `styles.css`.
+2. Open `chrome://extensions/`.
+3. Click the reload button for this extension.
+4. Hard-refresh YouTube with `Ctrl+Shift+R`.
+
+## Files
 
 | File | Description |
-|------|-------------|
-| `manifest.json` | Extension configuration |
-| `styles.css` | **CSS with responsive breakpoints (customize this!)** |
-| `icon*.png` | Extension icons |
-| `README.md` | This file |
+| --- | --- |
+| `manifest.json` | Chrome extension configuration |
+| `styles.css` | Loaded-grid and loading-placeholder layout rules |
+| `assets/icon*.png` | Extension icons |
+| `README.md` | Installation and customization guide |
 
----
+## License
 
-## 🚀 Usage
-
-Once installed, just visit [YouTube.com](https://youtube.com) and the grid will automatically adjust based on your screen size. Try resizing your browser window to see it adapt in real-time!
-
----
-
-## 📝 License
-
-Free to use and modify as you wish!
+Free to use and modify.
