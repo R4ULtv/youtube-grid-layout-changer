@@ -1,41 +1,48 @@
-/* Override YouTube's grid layout with responsive breakpoints */
+/* Keep YouTube's loaded grid and its loading skeleton on the same layout. */
+:root {
+    --ytgc-items-per-row: 1;
+}
 
-/* Extra small screens (up to 767px) - 1 item per row */
 ytd-rich-grid-renderer {
-    --ytd-rich-grid-items-per-row: 1 !important;
+    --ytd-rich-grid-items-per-row: var(--ytgc-items-per-row) !important;
+}
+
+/*
+ * Loading placeholders use a separate flex layout with inline 310px sizes.
+ * Give that container its own real grid so those flex rules cannot compress
+ * the cards or make their width differ from the loaded video grid.
+ */
+#home-container-media {
+    display: grid !important;
+    grid-template-columns: repeat(var(--ytgc-items-per-row), minmax(0, 1fr)) !important;
+    column-gap: 16px;
+}
+
+#home-container-media > .rich-grid-media-skeleton {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin-inline: 0 !important;
+    flex: none !important;
 }
 
 /* Small screens (768px to 1023px) - 2 items per row */
 @media (min-width: 768px) {
-    ytd-rich-grid-renderer {
-        --ytd-rich-grid-items-per-row: 2 !important;
+    :root {
+        --ytgc-items-per-row: 2;
     }
 }
 
 /* Medium screens (1024px to 1365px) - 3 items per row */
 @media (min-width: 1024px) {
-    ytd-rich-grid-renderer {
-        --ytd-rich-grid-items-per-row: 3 !important;
+    :root {
+        --ytgc-items-per-row: 3;
     }
 }
 
-/* Large screens (1366px to 1599px) - 4 items per row */
+/* Large screens (1366px and above) - 4 items per row */
 @media (min-width: 1366px) {
-    ytd-rich-grid-renderer {
-        --ytd-rich-grid-items-per-row: 4 !important;
-    }
-}
-
-/* Extra large screens (1600px to 1919px) - 5 items per row */
-@media (min-width: 1600px) {
-    ytd-rich-grid-renderer {
-        --ytd-rich-grid-items-per-row: 4 !important;
-    }
-}
-
-/* Ultra wide screens (1920px and above) - 6 items per row */
-@media (min-width: 1920px) {
-    ytd-rich-grid-renderer {
-        --ytd-rich-grid-items-per-row: 4 !important;
+    :root {
+        --ytgc-items-per-row: 4;
     }
 }
